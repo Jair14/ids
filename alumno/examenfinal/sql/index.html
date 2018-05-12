@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body class='light-blue accent-4'>
+	<ul id="slide-out" class="side-nav fixed grey lighten-2">
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<li>
+			<a href="#!" class="waves-effect waves-light blue darken-2 white-text" id="espanol">Español
+		  		<i class="material-icons right white-text">chrome_reader_mode</i>
+			</a>
+		</li>
+		<li class="espacio-arriba">
+			<a href="#!" class="waves-effect waves-light green accent-3 white-text" id="mate">Matemáticas
+				<i class="material-icons right white-text">equalizer</i>
+		  	</a>
+	  	</li>
+	  	<li class="espacio-arriba">
+		  	<a href="#!" class="waves-effect waves-light  amber darken-4 white-text" id="ciencias">Ciencias
+  				<i class="material-icons right white-text">fingerprint</i>
+  			</a>
+	  	</li>
+		<li class="espacio-arriba">
+		  	<a href="#!" class="waves-effect waves-light purple darken-3 white-text" id="historia">Historia
+  				<i class="material-icons right white-text">hourglass_empty</i>
+  			</a>
+	  	</li>
+		<li class="espacio-arriba">
+		  	<a href="#!" class="waves-effect waves-light brown darken-3 white-text" id="geografia">Geografía
+  				<i class="material-icons right white-text">filter_hdr</i>
+  			</a>
+	  	</li>
+	</ul>
+	<nav class="hide-on-large-only black">
+		<div class="nav-wrapper">
+			<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons white-text">menu</i></a>
+			<a href="#" class="brand-logo center">Exámen</a>
+		</div>
+	</nav>
+	<main>
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<div class="card white espacio-arriba1" id="contenido">
+						<div class="card-content">
+							<form class="" action="index.php" method="post" id="form">
+								<span class="card-title grey-text" id="titulo">Materia: </span>
+								<div id="espanol_exa">
+									<ul id="tabs-swipe-demo" class="tabs">
+										<li class="tab col s3"><a href="#test0-swipe-1">Pregunta 1</a></li>
+										<li class="tab col s3"><a href="#test0-swipe-2">Pregunta 2</a></li>
+										<li class="tab col s3"><a href="#test0-swipe-3">Pregunta 3</a></li>
+									</ul>
+								</div>
+								<div id="mate_exa">
+									<ul id="tabs-swipe-demo" class="tabs">
+										<li class="tab col s3"><a href="#test1-swipe-1">Pregunta 1</a></li>
+										<li class="tab col s3"><a href="#test1-swipe-2">Pregunta 2</a></li>
+										<li class="tab col s3"><a href="#test1-swipe-3">Pregunta 3</a></li>
+									</ul>
+								</div>
+								<div id="ciencias_exa">
+									<ul id="tabs-swipe-demo" class="tabs">
+										<li class="tab col s3"><a href="#test2-swipe-1">Pregunta 1</a></li>
+										<li class="tab col s3"><a href="#test2-swipe-2">Pregunta 2</a></li>
+										<li class="tab col s3"><a href="#test2-swipe-3">Pregunta 3</a></li>
+									</ul>
+								</div>
+								<div id="historia_exa">
+									<ul id="tabs-swipe-demo" class="tabs">
+										<li class="tab col s3"><a href="#test3-swipe-1">Pregunta 1</a></li>
+										<li class="tab col s3"><a href="#test3-swipe-2">Pregunta 2</a></li>
+										<li class="tab col s3"><a href="#test3-swipe-3">Pregunta 3</a></li>
+									</ul>
+								</div>
+								<div id="geografia_exa">
+									<ul id="tabs-swipe-demo" class="tabs">
+										<li class="tab col s3"><a href="#test4-swipe-1">Pregunta 1</a></li>
+										<li class="tab col s3"><a href="#test4-swipe-2">Pregunta 2</a></li>
+										<li class="tab col s3"><a href="#test4-swipe-3">Pregunta 3</a></li>
+									</ul>
+								</div>
+							</form>
+						</div>
+						<div class="card-action espacio-arriba1 grey lighten-2">
+							<div class="input-field">
+								<center>
+									<button class="btn waves-effect waves-light #e53935 blue" type="submit" name="action">Enviar respuestas
+										<i class="material-icons right">send</i>
+									</button>
+								</center>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="js/init.js"></script>
+<style media="screen">
+	header, main, footer {
+ 		padding-left: 300px;
+	}
+	@media only screen and (max-width : 992px) {
+ 		header, main, footer {
+			padding-left: 0;
+  		}
+	}
+	.espacio-arriba{
+		margin-top: 20px;
+	}
+	.espacio-arriba1{
+		margin-top: 70px;
+	}
+	.tab{
+		margin-left: 2em;
+	}
+</style>
+</html>
