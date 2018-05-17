@@ -1,6 +1,6 @@
 <?php
-include 'conexion.php';
-if (!isset($_SESSION['user'])) {
+include 'conexion.php';  // Incluimos la conexion
+if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redireccionará al inicio
 	header('location: index.php');
 }
 ?>
@@ -14,41 +14,42 @@ if (!isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+		<!--Establecemos los estilos para que el sidenav genere un espacio-->
     <style media="screen">
-     html {
-    font-family: GillSans, Calibri, Trebuchet, sans-serif;
-  }
-    .button-collapse{
-    	display: none;
-    }
-    	header, main, footer {
-      padding-left: 300px;
-    }
+	     html {
+		    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+		  }
+	    .button-collapse{
+	    	display: none;
+	    }
+	    	header, main, footer {
+	      padding-left: 300px;
+	    }
 
-    @media only screen and (max-width : 992px) {
-      header, main, footer {
-        padding-left: 0;
-      }
-      .button-collapse{
-    	display: inherit;
-    }
-    }
+	    @media only screen and (max-width : 992px) {
+	      header, main, footer {
+	        padding-left: 0;
+	      }
+	      .button-collapse{
+	    	display: inherit;
+	    }
+	    }
     </style>
 </head>
 <body>
 
-
+<!--Inicia el contenido principal de la la página-->
 <main>
-
+		<!--Inicia la barra de navegación-->
 	  <nav class="#455a64 blue-grey darken-2">
 	    <div class="nav-fixed">
 	      <img src="images/logo.png" class="brand-logo right circle" width="80px" height="65px">
 	      <a href="#" class="brand-logo center">PREGUNTAS</a>
 	    </div>
 	  </nav>
+		<!--Termina la barra de navegación-->
 
-
-
+			<!--Inicia el contenedor de las preguntas-->
 	  	<div class="container">
 		  	<div class="row">
 		  		<div class="col s12">
@@ -119,7 +120,7 @@ if (!isset($_SESSION['user'])) {
 		</div>
 
 
-
+		<!--Inicia el sidenav para ingresar a las opciones del sistema-->
 		<ul id="slide-out" class="side-nav fixed">
 		    <li><div class="user-view">
 		      <div class="background">
@@ -135,6 +136,7 @@ if (!isset($_SESSION['user'])) {
 		    <li><a href="preguntas.php"><i class="material-icons">assignment</i>Preguntas</a></li>
 		    <li><a href="aspirantes.php"><i class="material-icons">assignment_ind</i>Aspirantes</a></li>
 		    <li><a href="../calificar/calif.html"><i class="material-icons">assessment</i>Calificar</a></li>
+				<!--Solamente si ya han sido publicados los resultados, se podrá acceder a la opción de resultados del sistema-->
 				<?php
 					$consulta = $con->query("SELECT * FROM calificacion");
 					$resultados = mysqli_num_rows($consulta);
@@ -154,31 +156,36 @@ if (!isset($_SESSION['user'])) {
 </main>
 <script type="text/javascript">
 $(document).ready(function() {
-$('select').material_select();
+	$('select').material_select();	// Inicializamos la seleccion
 });
 </script>
 <script>
-	$("#numero").change(function(){
-		seccion = document.getElementById('numero').value;
-		$.post('consulta.php', {seccion: seccion}, function(data, textStatus, xhr) {
+	$("#numero").change(function(){ // Callback para cuando cambie el id numero
+		seccion = document.getElementById('numero').value; // Obtenemos su valor
+		$.post('consulta.php', {seccion: seccion}, function(data, textStatus, xhr) { // Mandamos una petición asíncrona mediante método POST al servidor
 			/*optional stuff to do after success */
-			console.log(data);
+			console.log(data); // Imprimimos las respuestas del servidor en consola
 			console.log(textStatus);
+			// Creamos 2 arrays
 			materias = new Array();
 			ids = new Array();
+			// Extraemos las materias
 			for (var i = 0; i < data.length; i+= 2) {
 				materias.push(data[i]);
 			}
+			// Extraemos los ids
 			for (var x = 1; x < data.length; x+= 2) {
 				ids.push(data[x]);
 			}
+			// Mandamos a consola los arrays
 			console.log(materias);
 			console.log(ids);
+			// Obtenemos y rellenamos el select
 			s = document.getElementById('materias');
 			for (var y = 0; y < data.length/2 ; y++) {
         s.options[y+1] = new Option(materias[y], ids[y]);
     	}
-		}, 'json');
+		}, 'json'); // Se llegará en formato JSON
 	});
 </script>
 <script>

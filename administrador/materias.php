@@ -1,6 +1,6 @@
 <?php
-include 'conexion.php';
-if (!isset($_SESSION['user'])) {
+include 'conexion.php'; // Incluimos la conexion
+if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redireccionará al inicio
 	header('location: index.php');
 }
 ?>
@@ -14,39 +14,40 @@ if (!isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+		<!--Establecemos los estilos para que el sidenav genere un espacio-->
     <style media="screen">
-     html {
-    font-family: GillSans, Calibri, Trebuchet, sans-serif;
-  }
-    .button-collapse{
-    	display: none;
-    }
-    	header, main, footer {
-      padding-left: 300px;
-    }
+	     html {
+		    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+		  }
+	    .button-collapse{
+	    	display: none;
+	    }
+	    	header, main, footer {
+	      padding-left: 300px;
+	    }
 
-    @media only screen and (max-width : 992px) {
-      header, main, footer {
-        padding-left: 0;
-      }
-      .button-collapse{
-    	display: inherit;
-    }
-    }
+	    @media only screen and (max-width : 992px) {
+	      header, main, footer {
+	        padding-left: 0;
+	      }
+	      .button-collapse{
+	    	display: inherit;
+	    }
+	    }
     </style>
 </head>
 <body>
 
-
+<!--Inicia el contenido principal de la la página-->
 <main>
-
+	<!--Inicia la barra de navegación-->
 	  <nav class="#455a64 blue-grey darken-2">
 	    <div class="nav-fixed">
 	      <img src="images/logo.png" class="brand-logo right circle" width="80px" height="65px">
 	      <a href="#" class="brand-logo center">Secciones</a>
 	    </div>
 	  </nav>
-
+	<!--Termina la barra de navegación-->
 		<br>
 
 	  	<div class="container">
@@ -56,6 +57,7 @@ if (!isset($_SESSION['user'])) {
 		  				<div class="card-content">
 								<div class="row">
 									<div class="col s12">
+										<!--Inicia el apartado para controlar las secciones-->
 										<ul class="tabs">
 											<li class="tab col s3"><a class="active" href="#test4">Secciones</a></li>
 											<li class="tab col s3"><a href="#test1">Agregar sección</a></li>
@@ -158,7 +160,7 @@ if (!isset($_SESSION['user'])) {
 		</div>
 
 
-
+		<!--Inicia el sidenav para ingresar a las opciones del sistema-->
 		<ul id="slide-out" class="side-nav fixed">
 		    <li><div class="user-view">
 		      <div class="background">
@@ -192,7 +194,7 @@ if (!isset($_SESSION['user'])) {
  </div>
 </main>
 <script>
-	$("#vp").click(function(){
+	$("#vp").click(function(){ //Inicializamos los tabs
 		window.location.href = "preguntas/verp.html";
 	});
 	$(document).ready(function(){
@@ -200,7 +202,7 @@ if (!isset($_SESSION['user'])) {
  });
 </script>
 <script>
-$(document).ready(function() {
+$(document).ready(function() { //Inicializamos el select
 	$('select').material_select();
 });
 </script>

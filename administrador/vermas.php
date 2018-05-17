@@ -1,17 +1,17 @@
 <?php
-include 'conexion.php';
-if (!isset($_SESSION['user'])) {
+include 'conexion.php'; // Incluimos la conexion
+if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redireccionará al inicio
 	header('location: index.php');
 }
 ?>
 <?php
   $folio = $_GET['folio'];
-  $data = $con ->query("SELECT * FROM Alumnos WHERE Folio = '$folio'");
-  $imprimir = $data->fetch_assoc();
+  $data = $con ->query("SELECT * FROM alumnos WHERE Folio = '$folio'"); // Seleccionamos a los alumnos con el folio
+  $imprimir = $data->fetch_assoc(); // Establecemos el arreglo asociativo
   mysqli_query($con, "SET NAMES 'utf8'");
  ?>
 <?php
-  $consulta = $con->query("SELECT * FROM calificacion WHERE folio_alumno = '$folio'");
+  $consulta = $con->query("SELECT * FROM calificacion WHERE folio_alumno = '$folio'"); // Seleccionamos la calificacion con el folio
  ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,25 +23,26 @@ if (!isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+		<!--Establecemos los estilos para que el sidenav genere un espacio-->
     <style media="screen">
-     html {
-    font-family: GillSans, Calibri, Trebuchet, sans-serif;
-  }
-    .button-collapse{
-    	display: none;
-    }
-    	header, main, footer {
-      padding-left: 300px;
-    }
+	     html {
+		    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+		  }
+	    .button-collapse{
+	    	display: none;
+	    }
+	    	header, main, footer {
+	      padding-left: 300px;
+	    }
 
-    @media only screen and (max-width : 992px) {
-      header, main, footer {
-        padding-left: 0;
-      }
-      .button-collapse{
-    	display: inherit;
-    }
-    }
+	    @media only screen and (max-width : 992px) {
+	      header, main, footer {
+	        padding-left: 0;
+	      }
+	      .button-collapse{
+	    	display: inherit;
+	    }
+	    }
     </style>
 </head>
 <body>
@@ -55,7 +56,7 @@ if (!isset($_SESSION['user'])) {
 	      <a href="#" class="brand-logo center">INICIO</a>
 	    </div>
 	  </nav>
-
+			<!--Imprimimos los datos-->
 	  	<div class="title">
 	  		<center><h1><b>Ver más</b></h1></center>
 	  	</div>
@@ -69,7 +70,7 @@ if (!isset($_SESSION['user'])) {
 		  		<div class="col s12">
 						<div class="input-field">
 							<i class="material-icons prefix">search</i>
-							<input type="text" id= "buscar" class= "buscar" > 
+							<input type="text" id= "buscar" class= "buscar" >
 							<label for="buscar">Ingresa aquí tú búsqueda</label>
 						</div>
 		  			<div class="card">
