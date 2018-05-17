@@ -1,5 +1,5 @@
-<?php @session_start();
-if (isset($_SESSION['user'])) {
+<?php @session_start(); // Iniciamos una sesión
+if (isset($_SESSION['user'])) { // Si existe una sesión activa, se redireccionará a la página del administrador
   header('location: admon.php');
 }
  ?>
@@ -24,6 +24,8 @@ if (isset($_SESSION['user'])) {
         <br>
       </div>
     </div>
+
+    <!--Establecemos el contenedor que tendrá los campos para incisio de sesión-->
     <div class="container">
       <div class="row">
         <div class="col s12">
