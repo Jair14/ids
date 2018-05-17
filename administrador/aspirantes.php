@@ -1,9 +1,9 @@
 <?php
-include 'conexion.php';
-if (!isset($_SESSION['user'])) {
+include 'conexion.php'; // Incluimos la conexion
+if (!isset($_SESSION['user'])) {// Si no existe una sesión iniciada se redireccionará al inicio
 	header('location: index.php');
 }
-$datos = $con->query("SELECT * FROM alumnos");
+$datos = $con->query("SELECT * FROM alumnos"); // Seleccionamos todos los datos de la tabla alumnos
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,39 +15,42 @@ $datos = $con->query("SELECT * FROM alumnos");
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+		<!--Establecemos los estilos para que el sidenav genere un espacio-->
     <style media="screen">
-     html {
-    font-family: GillSans, Calibri, Trebuchet, sans-serif;
-  }
-    .button-collapse{
-    	display: none;
-    }
-    	header, main, footer {
-      padding-left: 300px;
-    }
+	     html {
+		    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+		  }
+	    .button-collapse{
+	    	display: none;
+	    }
+	    	header, main, footer {
+	      padding-left: 300px;
+	    }
 
-    @media only screen and (max-width : 992px) {
-      header, main, footer {
-        padding-left: 0;
-      }
-      .button-collapse{
-    	display: inherit;
-    }
-    }
+	    @media only screen and (max-width : 992px) {
+	      header, main, footer {
+	        padding-left: 0;
+	      }
+	      .button-collapse{
+	    	display: inherit;
+	    }
+	    }
     </style>
 </head>
 <body>
 
-
+<!--Inicia el contenido principal de la la página-->
 <main>
-
+	<!--Inicia la barra de navegación-->
 	  <nav class="#455a64 blue-grey darken-2">
 	    <div class="nav-fixed">
 	      <img src="images/logo.png" class="brand-logo right circle" width="80px" height="65px">
 	      <a href="#" class="brand-logo center">ASPIRANTES</a>
 	    </div>
 	  </nav>
+	<!--Termina la barra de navegación-->
 
+	<!--Iniciamos el div que nos ayudará a obtener el excel de los alumnos-->
 	  	<div class="title">
 	  		<center><h1><b>Tabla de aspirantes</b></h1>
       <form action="excel.php" method="post" target="_blank" id="exportar">
@@ -56,6 +59,7 @@ $datos = $con->query("SELECT * FROM alumnos");
         </form></center>
 	  	</div>
 
+	<!--Inicio del buscador-->
 	  	<div class="container">
 		  	<div class="row">
 		  		<div class="col s12">
@@ -73,7 +77,7 @@ $datos = $con->query("SELECT * FROM alumnos");
 		  	</div>
 		</div>
 
-
+	<!--Inicio del sidenav-->
 		<ul id="slide-out" class="side-nav fixed">
 		    <li><div class="user-view">
 		      <div class="background">
@@ -108,7 +112,7 @@ $datos = $con->query("SELECT * FROM alumnos");
 </main>
 <script src = "js/main.js" ></script>
 <script type="text/javascript">
-  $('.botone').click(function(){
+  $('.botone').click(function(){ // Función para generar el archivo excel de todos los alumnos
     $('.borrar').remove();
     $('#data').val( $("<div>").append($('.excel').eq(0).clone()).html());
     $('#exportar').submit();
