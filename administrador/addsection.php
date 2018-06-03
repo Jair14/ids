@@ -1,6 +1,7 @@
 <?php
   include 'conexion.php'; // Incluimos la conexion
   //Obtenermos los valores enviados por método POST
+  $nombre = $_POST['nombre'];
   $tipo = $_POST['seleccion'];
   $periodo = $_POST['periodo'];
   $grado = $_POST['seleccions'];
@@ -21,7 +22,7 @@
   $num += 1; // Aumentamos el valor de num en 1
   $seccion = "Seccion_".(string)$num; // Creamos un string con el número de sección
   //$last = $num*1000;
-  $insertar = $con->query("INSERT INTO secciones VALUES ('$seccion', $numero, $folio, $grado, $folio)"); // Insertamos a la BD los valores obtenidos
+  $insertar = $con->query("INSERT INTO secciones VALUES ('$seccion', $numero, $folio, $grado, $folio, '$nombre')"); // Insertamos a la BD los valores obtenidos
   if ($insertar) {
     header('location: alerta.php?mensaje=Se ha ingresado correctamente&p=adseccion&t=success'); // Redirección en caso de funcionar
   }else{

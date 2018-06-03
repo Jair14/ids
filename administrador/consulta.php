@@ -12,5 +12,5 @@ while ($r = $nquery->fetch_assoc()) {
   array_push($array, $r['materia'], $r['id']); // Llenamos el array con los ids y materias que correspondan al grado
 }
 
-echo json_encode($array); // Imprimimos el array en formato JSON 
+echo json_encode($array); // Imprimimos el array en formato JSON
 ?>

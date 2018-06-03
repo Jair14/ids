@@ -106,6 +106,7 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 			 <?php }else{?>
 				 	<li><a href="resultados.php"><i class="material-icons">assignment_ind</i>Resultados</a></li>
 			 <?php } ?>
+			 <li><a href="base.php"><i class="material-icons">apps</i>Base de datos</a></li>
 				<li><a href="logout.php"><i class="material-icons">exit_to_app</i>Salir del sistema</a></li>
 
 		    <li><div class="divider"></div></li>

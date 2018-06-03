@@ -74,6 +74,7 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 							          <tr>
 							              <th>Sección</th>
 							              <th>Número de preguntas</th>
+														<th>Nombre de la sección</th>
 							          </tr>
 							        </thead>
 
@@ -82,6 +83,7 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 	                        <tr>
 	                          <td><?php echo $user['seccion']; ?></td>
 	                          <td><?php echo $user['no_preguntas']; ?></td>
+														<td><?php echo $user['nombre']; ?></td>
 														<td><a target="_blank" href="verp.php?seccion=<?php echo $user['seccion']; ?>">Ver preguntas</a></td>
 														<td><a href="alertaseliminar.php?delete=<?php echo $user['seccion'];?>">Eliminar sección</a></td>
 	                        </tr>
@@ -92,6 +94,9 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 									<div id="test1" class="col s12">
 										<span class="card-title center">Agregar sección</span>
 										<form class="section" action="addsection.php" method="post">
+												<div class="input-field">
+													<input type="text" name="nombre" placeholder="Nombre de la sección" required>
+												</div>
 												<div class="input-field">
 													<select name="seleccion">
 													 <option value="" disabled selected>Elige una opción</option>
