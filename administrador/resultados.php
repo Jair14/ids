@@ -54,6 +54,87 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 	  	<div class="title">
 	  		<center><h1><b>Resultados</b></h1></center>
 	  	</div>
+
+	  	<div class="container">
+	  		<div class="row">
+	  			<div class="col s12">
+	  				<div class="card z-depth-5">
+	  					<div class="card-content">
+	  						<form action="generar.php" method="POST">
+	  							<select class="default-browser" name="grupo">
+							      <option value="" disabled selected>Grupo</option>
+							      <optgroup label="Primeros Matutino">
+                                    <option value="111">111</option>
+                                    <option value="112">112</option>
+                                    <option value="113">113</option>
+                                </optgroup>
+                                <optgroup label="Primeros Vespertino">
+                                    <option value="121">121</option>
+                                    <option value="122">122</option>
+                                    <option value="123">123</option>
+                                </optgroup>
+                                <optgroup label="Segundos Matutino">
+                                    <option value="211">211</option>
+                                    <option value="212">212</option>
+                                    <option value="213">213</option>
+                                </optgroup>
+                                <optgroup label="Segundos Vespertino">
+                                    <option value="221">221</option>
+                                    <option value="222">222</option>
+                                    <option value="223">223</option>
+                                </optgroup>
+                                <optgroup label="Tercero Matutino">
+                                    <option value="311">311</option>
+                                    <option value="312">312</option>
+                                    <option value="313">313</option>
+                                </optgroup>
+                                <optgroup label="Tercero Vespertino">
+                                    <option value="321">321</option>
+                                    <option value="322">322</option>
+                                    <option value="323">323</option>
+                                </optgroup>
+                                <optgroup label="Cuartos Matutino">
+                                    <option value="411">411</option>
+                                    <option value="412">412</option>
+                                    <option value="413">413</option>
+                                </optgroup>
+                                <optgroup label="Cuartos Vespertino">
+                                    <option value="421">421</option>
+                                    <option value="422">422</option>
+                                    <option value="423">423</option>
+                                </optgroup>
+                                <optgroup label="Quintos Matutino">
+                                    <option value="511">511</option>
+                                    <option value="512">512</option>
+                                    <option value="513">513</option>
+                                </optgroup>
+                                <optgroup label="Quintos Vespertino">
+                                    <option value="521">521</option>
+                                    <option value="522">522</option>
+                                    <option value="523">523</option>
+                                </optgroup>
+                                <optgroup label="Sextos Matutino">
+                                    <option value="611">611</option>
+                                    <option value="612">612</option>
+                                    <option value="613">613</option>
+                                </optgroup>
+                                <optgroup label="Sextos Vespertino">
+                                    <option value="621">621</option>
+                                    <option value="622">622</option>
+                                    <option value="623">623</option>
+                                </optgroup>
+							    </select>
+							    <div class="center">
+							    	
+							    <button type="submit" class="waves-effect waves-light btn center">Generar</button>
+							    </div>
+	  						</form>
+	  					</div>
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
 			<!--Inicia el contenedor del buscador-->
 	  	<div class="container">
 		  	<div class="row">
@@ -112,5 +193,10 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 
 </script>
 <script src="js/resultados.js"></script>
+<script>
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+</script>
 </body>
 </html>

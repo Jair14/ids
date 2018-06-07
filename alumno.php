@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.2/sweetalert2.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.2/sweetalert2.js"></script>
 <?php
+    //LA variable opc se usa para saber si está en la bd
     $opc = True;
     include 'conexion.php';
     /* comprobar la conexión */
@@ -20,17 +21,23 @@
         printf("Falló la conexión: %s <br>", mysqli_connect_error());
         exit();
     }
+    //Obtemos la matricula y la confirmación de la misma
     $password = $_POST['alum_password'];
     $verifica = $_POST['verify'];
+    //Se genera la consulta a la BD para saber si la matrícula existe
     $prueba = "SELECT * FROM alumnos where '$password' = Folio";
     if(mysqli_multi_query($link, $prueba)){
         if ($resul = mysqli_use_result($link)) {
             if ($fila = mysqli_fetch_row($resul)) {
+                //Se usa el resultado para comprobar que todo sea igual y se verifica para evitar errores
                 if($fila[0] == $password && $verifica == $password){
+                    //Al final se redirecciona a alumno/index.html y se manda una variable de url con la matricula del alumno
                     header( "refresh: 0.1;url=alumno/index.html?folio=$password" );
                 }
             }
             else {
+                //Normalmente esto pasará para acá cuando no se encuentre en la BD
+                //Será modificado para poder mandar el error indicado
                 $opc = False;
             }
         }
@@ -43,17 +50,20 @@
 ?>
 </head>
 <body>
+    <!-- Se comprobara que la matricula y verificación sean iguales sino se manda el error-->
     <?php if(!($password==$verifica)):?>
         <?php $opc = False;?>
         <script type="text/javascript">
             swal(
                 'Error',
-                'Su folio no coincide, inténtelo nuevamente',
+                'Su matrícula no coincide, inténtelo nuevamente',
                 'error'
             ).then(function(){
                 window.location.href = "index.html"
             });
         </script>
+        <!-- De ser iguales entonces se pasa a ver si existe en la BD para poder
+        Mandar el error adecuado-->
     <?php elseif(!$opc):?>
         <script type="text/javascript">
             swal(

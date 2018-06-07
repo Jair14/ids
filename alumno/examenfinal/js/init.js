@@ -176,6 +176,7 @@ $(document).ready(function(){
                     for (var a = 0; a < 4; a++) {
                         opc.push(aleatorio2(0, 3));
                     }
+                    console.log(data);
                     //Es la unica manera con la que funciono el evento de cambio en radio button
                     //Se pasa como parametro el this para que mande toda la información del input seleccionado
                     evento = "onchange=myfunction(this)";
@@ -187,7 +188,7 @@ $(document).ready(function(){
                     //Se añade la preguta al contenido con todo y sus posibles respuestas
                     $("#"+(para_usar[i].replace(/[^a-zA-Z 0-9.]+/g,''))+k).append('<div class="input-field hide"><input type="text" name="respuestas['+con_preguntas+'][1]" value="'+data[con_preguntas].id_pregunta+'"></div><p>'+data[con_preguntas].pregunta+'</p>'+respuesta1+respuesta2+respuesta3+respuesta4);
                     //Si tienen contenido de imagen
-                    if(data[con_preguntas].imagen){
+                    if(data[con_preguntas].imagen != "images/"){
                         $("#"+(para_usar[i].replace(/[^a-zA-Z 0-9.]+/g,''))+k).prepend('<div class="col s12"><img src="'+data[con_preguntas].imagen+'" class="responsive-img"></div>')
                     }
                     //Se añade el nombre(name) de las preguntas con un valor "sin contestar" en un diccionario
@@ -211,7 +212,7 @@ function myfunction(elemento_seleccionado){
         //Si no ha sido contestada se agrega uno al contador de elementos contestados
         respuestas_totales += 1
         //Busca el enlace, que este activo, el help solo es para identificar cual es de preguntas
-        $("a.active.help").addClass("green");
+        $("a.active.help").addClass("blue");
         //Si ya se contestó todo se mostrará el botón de enviar
         if (respuestas_totales == con_preguntas) {
             $(".card-action").removeClass("hide");
@@ -222,11 +223,11 @@ function myfunction(elemento_seleccionado){
         //Para cada seccion
         dic_seccion[$(elemento_seleccionado).parent().parent().parent().attr("id").replace(/.$/, '')] -= 1;
         if(dic_seccion[$(elemento_seleccionado).parent().parent().parent().attr("id").replace(/.$/, '')] == 0){
-            $("#"+$(elemento_seleccionado).parent().parent().parent().attr("id").replace(/.$/, '')+"_id").addClass('green');
+            $("#"+$(elemento_seleccionado).parent().parent().parent().attr("id").replace(/.$/, '')+"_id").addClass('blue');
         }
     }
     //Busca el enlace, que este activo, el help solo es para identificar cual es de preguntas
-    $("a.active.help").addClass("green");
+    $("a.active.help").addClass("blue");
 }
 //Se le añade el help para que funcione el coloreado
 function cambio(tab_sele){
@@ -241,7 +242,6 @@ function helpo(esto) {
 function manu() {
     swal({
         title: 'INSTRUCCIONES:',
-        background: 'url(http://goo.gl/jVlMUC)',
         html: '<ol>'+
         '<li><strong>Para poder ver una pregunta o sección determinada, deberá dar click en el espacio superior que lo señala.</li>'+
         '<li>Deberá leer atentamente cada una de las preguntas y seleccionar la respuesta que considere correcta. Cada que conteste una pregunta, el espacio superior que marca el número de pregunta, se coloreara.</li>'+

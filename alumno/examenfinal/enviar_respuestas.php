@@ -39,7 +39,7 @@ if (mysqli_connect_errno()) {
 
 for ($i=0; $i < count($respuestas); $i++) {
     $row = $respuestas[$i];
-    $prueba = "INSERT INTO Respuestas_alumno VALUES ('$folio_alumno','$row[1]', '$opcion[$i]','$row[2]')";
+    $prueba = "INSERT INTO respuestas_alumno VALUES ('$folio_alumno','$row[1]', '$opcion[$i]','$row[2]')";
     if(!mysqli_query($link, $prueba)){
     printf("Error en la pregunta %d \n Errormessage: %s\n", ($i+1),mysqli_error($link));
     }

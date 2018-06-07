@@ -74,6 +74,7 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 							          <tr>
 							              <th>Sección</th>
 							              <th>Número de preguntas</th>
+							              <th>Nombre de sección</th>
 							          </tr>
 							        </thead>
 
@@ -82,6 +83,13 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 	                        <tr>
 	                          <td><?php echo $user['seccion']; ?></td>
 	                          <td><?php echo $user['no_preguntas']; ?></td>
+	                          <td><?php echo $user['nombre']; ?></td>
+	                          <td><?php if($user['active'] == 0){?>
+	                          		<a href="activar.php?active=1&seccion=<?php echo $user['seccion'] ?>">Activar</a>
+	                          	  <?php }else{?>
+	                          	    <a href="activar.php?active=0&seccion=<?php echo $user['seccion'] ?>">Desactivar</a>
+	                          	  <?php }?>
+	                          </td>
 														<td><a target="_blank" href="verp.php?seccion=<?php echo $user['seccion']; ?>">Ver preguntas</a></td>
 														<td><a href="alertaseliminar.php?delete=<?php echo $user['seccion'];?>">Eliminar sección</a></td>
 	                        </tr>
@@ -106,7 +114,7 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 											 	<input type="number" name="periodo" placeholder="Ingresa el periodo de la sección">
 											 </div>
 											 <div class="input-field">
-												 <select name="seleccions">
+												 <select name="seleccions" id="grade">
 													<option value="" disabled selected>Elige una opción</option>
 													<option value="0">1° de secundaria</option>
 													<option value="1">2° de secundaria</option>
@@ -120,10 +128,18 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 												</select>
 												<label>Selecciona un grado</label>
 											</div>
+											<div>
+											 <select class="browser-default" id="materias" name="materias">
+												 <option value="" disabled selected>Selecciona una materia</option>
+											 </select>
+										 </div>
 												<div class="input-field">
 													<i class="material-icons prefix">format_list_numbered</i>
 													<input type="number" name="npreguntas" min="0" max="99">
 													<label for="npreguntas">Ingresa el número de preguntas que aparecerán en la sección</label>
+												</div>
+												<div class="input-field">
+													<input type="text" name="nombre" placeholder="Ingresa el nombre de la sección">
 												</div>
 												<div class="center">
 													<button class="btn waves-effect waves-light" type="submit" name="action">Registrar
@@ -205,6 +221,36 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 $(document).ready(function() { //Inicializamos el select
 	$('select').material_select();
 });
+</script>
+<script>
+	$("#grade").change(function(){
+		grado = document.getElementById('grade').value;
+		console.log(grado);
+		$.post('consulta.php', {seccion: grado}, function(data, textStatus, xhr) { // Mandamos una petición asíncrona mediante método POST al servidor
+			/*optional stuff to do after success */
+			console.log(data); // Imprimimos las respuestas del servidor en consola
+			console.log(textStatus);
+			// Creamos 2 arrays
+			materias = new Array();
+			ids = new Array();
+			// Extraemos las materias
+			for (var i = 0; i < data.length; i+= 2) {
+				materias.push(data[i]);
+			}
+			// Extraemos los ids
+			for (var x = 1; x < data.length; x+= 2) {
+				ids.push(data[x]);
+			}
+			// Mandamos a consola los arrays
+			console.log(materias);
+			console.log(ids);
+			// Obtenemos y rellenamos el select
+			s = document.getElementById('materias');
+			for (var y = 0; y < data.length/2 ; y++) {
+        s.options[y+1] = new Option(materias[y], ids[y]);
+    	}
+		}, 'json');
+	});
 </script>
 </body>
 </html>

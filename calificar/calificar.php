@@ -1,5 +1,6 @@
 <?php
     include '../conexion.php';
+    $grupo = $_POST['grupo'];
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,38 +21,27 @@
            <?php $error = mysqli_connect_error(); ?>
            window.alert("<?php echo $error; ?>, SE TE REDIRECCIONARÁ EN UN MOMENTO");
         </script>
+    <?php endif; ?>
     <?php
-    header("refresh: 5.0; url=../index.html");
-    endif; ?>
-    <?php
-    $respuestas = array();
-    $respuestas_c = array();
-    $consulta_BD = "SELECT * FROM Respuestas_alumno;";
-    $consulta_BD .= "SELECT Id_pregunta, Respuesta_correcta FROM Materias";
-    $respuestas_alunmo0_correcta1 = 0;
-    if(mysqli_multi_query($link, $consulta_BD)):?>
-        <?php do{ ?>
+        //Obtenemos primero todas las matrículas de los alumnos pertenecientes al grupo indicado
+        //El array de alumnos contiene las matriculas por grupo
+        $alumno = array();
+        $consultaGrupos = "SELECT Folio FROM alumnos WHERE grupo = '$grupo'";
+        if(mysqli_multi_query($link, $consultaGrupos)):?>
+        <?php do {?>
             <?php if($resul = mysqli_use_result($link)): ?>
                 <?php while($fila = mysqli_fetch_row($resul)):?>
-                    <?php if($respuestas_alunmo0_correcta1 == 0): ?>
-                        <?php array_push($respuestas, array("$fila[0]", "$fila[1]", "$fila[3]", "$fila[2]")); ?>
-                    <?php else: ?>
-                        <?php array_push($respuestas_c, array("$fila[0]", "$fila[1]")); ?>
-                    <?php endif; ?>
+                    <?php array_push($alumno, $fila[0]); ?>
                 <?php endwhile; ?>
                 <?php mysqli_free_result($resul); ?>
             <?php endif; ?>
             <?php if(mysqli_more_results($link)): ?>
-                <?php $respuestas_alunmo0_correcta1 += 1; ?>
+                <script type="text/javascript">
+                    window.alert("Algo salió mal por favor recarga la página");
+                </script>
             <?php endif; ?>
         <?php }while(mysqli_next_result($link)); ?>
-    <?php else: ?>
-        <?php $error = mysqli_error($link); ?>
-        <script type="text/javascript">
-            window.alert("<?php echo $error; ?>, SE TE REDIRECCIONARÁ EN UN MOMENTO");
-        </script>
-        <?php header("refresh: 6.0; url=../index.html"); ?>
-    <?php endif; ?>
+        <?php endif;?>
     <div class="container">
         <div class="card white">
             <div class="card-content black-text">
@@ -67,55 +57,67 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i=0; $i < sizeof($respuestas); $i++):?>
-                            <tr>
-                                <?php for ($k=0; $k < 4; $k++):?>
-                                    <?php if ($k == 2): ?>
-                                        <?php for ($j=0; $j < sizeof($respuestas_c); $j++):?>
-                                            <?php if ($respuestas[$i][1] == $respuestas_c[$j][0]): ?>
-                                                <?php if ($respuestas[$i][2] == $respuestas_c[$j][1]): ?>
-                                                    <td>Correcta</td>
-                                                    <?php $puntaje = 1;
-                                                    $tipo = "Correcta";?>
-                                                    <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k; ?>]" value="<?php echo $respuestas[$i][2]; ?>" class="hide">
-                                                    <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k+1; ?>]" value="<?php echo $respuestas_c[$j][1]; ?>" class="hide">
-                                                <?php else: ?>
-                                                    <td>Incorrecta</td>
-                                                    <?php $puntaje = 0;
-                                                    $tipo = "Incorrecta";?>
-                                                    <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k; ?>]" value="<?php echo $respuestas[$i][2]; ?>" class="hide">
-                                                    <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k+1; ?>]" value="<?php echo $respuestas_c[$j][1]; ?>" class="hide">
-                                                <?php endif; ?>
-                                                <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k+2; ?>]" value="<?php echo $tipo; ?>" class="hide">
-                                            <?php endif; ?>
-                                        <?php endfor; ?>
-                                    <?php elseif ($k == 3): ?>
-                                        <td><?php echo $puntaje; ?></td>
-                                        <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k+2; ?>]" value="<?php echo $puntaje; ?>" class="hide">
-                                    <?php else: ?>
-                                        <td><?php echo $respuestas[$i][$k]; ?></td>
-                                        <input type="text" name="enviar_calificacion[<?php echo $i; ?>][<?php echo $k; ?>]" value="<?php echo $respuestas[$i][$k]; ?>" class="hide">
-                                    <?php endif; ?>
-                                <?php endfor; ?>
-                            </tr>
-                        <?php endfor; ?>
+    <?php //Se genera un ciclo que recorra todos los alumnos y se vaya checando sus respuestas
+        //Se checará por alumno sus respuestas y preguntas se consultará las respuestas a cada vuelta
+        $respuestasCorrectas = array();
+        $i = 0;
+        for ($k=0; $k < sizeof($alumno) ; $k++) {
+            $respuestasABuscar = "SELECT r.folio_pregunta, r.Respuesta_dada, m.Id_pregunta, m.Respuesta_correcta FROM respuestas_alumno r INNER JOIN materias as m on m.Id_pregunta = r.folio_pregunta WHERE folio_alumno = '$alumno[$k]'";
+            if (mysqli_multi_query($link, $respuestasABuscar)) {
+                do {
+                    if ($resul = mysqli_use_result($link)) {
+                        while ($fila = mysqli_fetch_row($resul)) {
+                            //Si la resuesta es correcta
+                            if($fila[1] == $fila[3]){
+                                echo "<tr>
+                                    <td>$alumno[$k]</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][0] value=$alumno[$k] class=\"hide\" />
+                                    <td>$fila[0]</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][1] value=$fila[0] class=\"hide\" />
+                                    <td>Correcta</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][2] value=$fila[1] class=\"hide\" />
+                                    <input type=\"text\" name=enviar_calificacion[$i][3] value=$fila[3] class=\"hide\" />
+                                    <input type=\"text\" name=enviar_calificacion[$i][4] value=\"Correcta\" class=\"hide\" />
+                                    <td>1</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][5] value=\"1\" class=\"hide\" />
+                                </tr>";
+                            }else {
+                                echo "<tr>
+                                    <td>$alumno[$k]</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][0] value=$alumno[$k] class=\"hide\" />
+                                    <td>$fila[0]</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][1] value=$fila[0] class=\"hide\" />
+                                    <td>Incorrecta</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][2] value=$fila[1] class=\"hide\" />
+                                    <input type=\"text\" name=enviar_calificacion[$i][3] value=$fila[3] class=\"hide\" />
+                                    <input type=\"text\" name=enviar_calificacion[$i][4] value=\"Incorrecta\" class=\"hide\" />
+                                    <td>0</td>
+                                    <input type=\"text\" name=enviar_calificacion[$i][5] value=\"0\" class=\"hide\" />
+                                </tr>";
+                            }
+                            $i += 1;
+                        }
+                    }
+                } while (mysqli_next_result($link));
+            }
+        }
+        mysqli_close($link); ?>
                     </tbody>
-                </table>
-                <div class="card-action">
-                    <div class="input-field">
-                        <center>
-                            <a href="../index.html">
-                                <button class="btn waves-effect waves-light blue">
-                                    Aceptar<i class="material-icons right">send</i>
-                                </button>
-                            </a>
-                        </center>
+                    </table>
+                    <div class="card-action">
+                        <div class="input-field">
+                            <center>
+                                <a href="../index.html">
+                                    <button class="btn waves-effect waves-light blue">
+                                        Aceptar<i class="material-icons right">send</i>
+                                    </button>
+                                </a>
+                            </center>
+                        </div>
                     </div>
-                </div>
                 </form>
             </div>
         </div>
     </div>
-    <?php mysqli_close($link);?>
 </body>
 </html>

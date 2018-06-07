@@ -65,16 +65,6 @@ if (!isset($_SESSION['user'])) { // Si no existe una sesión iniciada se redirec
 
 										 <br>
 
-										 <div>
-											 <select class="browser-default" id="materias" name="materias">
-												 <option value="" disabled selected>Selecciona una materia</option>
-											 </select>
-										 </div>
-
-
-
-
-
                      <div class="input-field">
                        <input type="text" name="pregunta" id="pregunta" required>
                        <label for="pregunta">Ingresa la pregunta</label>

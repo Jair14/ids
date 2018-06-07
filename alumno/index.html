@@ -124,7 +124,7 @@ function getParameterByName(name) {
 }
 //Se declara para poder usarse de manera global esos folios
 var folio_use;
-var folios, inicioFolios;
+var folios = [], inicioFolios;
 var solicitud = [];
 var idSeccion = [];
 //Ocultamos los contenidos que están dentro de las etiquetas center
@@ -155,51 +155,51 @@ $(document).ready(function(){
         if(grupo < 1000){
             //Irá en orden primero..sextos mañana y tarde
             if (grupo >110 && grupo < 120) {
-                tipoGrado = "primero";
+                tipoGrado = 3;
                 turno = "matutino"
             }
             else if (grupo >120 && grupo < 130) {
-                tipoGrado = "primero";
+                tipoGrado = 3;
                 turno = "vespertino"
             }
             else if (grupo > 210 && grupo < 220) {
-                tipoGrado = "segundo";
+                tipoGrado = 4;
                 turno = "matutino"
             }
             else if (grupo >220 && grupo < 230) {
-                tipoGrado = "segundo";
+                tipoGrado = 4;
                 turno = "vespertino"
             }
             else if (grupo >310 && grupo < 320) {
-                tipoGrado = "tercero";
+                tipoGrado = 5;
                 turno = "matutino"
             }
             else if (grupo >320 && grupo < 330) {
-                tipoGrado = "tercero";
+                tipoGrado = 5;
                 turno = "vespertino"
             }
             else if (grupo >410 && grupo < 420) {
-                tipoGrado = "cuarto";
+                tipoGrado = 6;
                 turno = "matutino"
             }
             else if (grupo > 420 && grupo < 430) {
-                tipoGrado = "cuarto";
+                tipoGrado = 6;
                 turno = "vespertino"
             }
             else if (grupo > 510 && grupo < 520) {
-                tipoGrado = "quinto";
+                tipoGrado = 7;
                 turno = "matutino"
             }
             else if (grupo > 520 && grupo < 530) {
-                tipoGrado = "quinto";
+                tipoGrado = 7;
                 turno = "vespertino"
             }
             else if (grupo > 610 && grupo < 620) {
-                tipoGrado = "sexto";
+                tipoGrado = 8;
                 turno = "matutino"
             }
             else if (grupo > 620 && grupo < 630) {
-                tipoGrado = "sexto";
+                tipoGrado = 8;
                 turno = "vespertino"
             }
         }
@@ -207,75 +207,58 @@ $(document).ready(function(){
         else{
             //Irá en orden primero..tercero mañana y tarde
             if (grupo >1100 && grupo < 1200) {
-                tipoGrado = "primero_secu";
+                tipoGrado = 0;
                 turno = "matutino"
             }
             else if (grupo >1200 && grupo < 1300) {
-                tipoGrado = "primero_secu";
+                tipoGrado = 0;
                 turno = "vespertino"
             }
             else if (grupo > 2100 && grupo < 2200) {
-                tipoGrado = "segundo_secu";
+                tipoGrado = 1;
                 turno = "matutino"
             }
             else if (grupo >2200 && grupo < 2300) {
-                tipoGrado = "segundo_secu";
+                tipoGrado = 1;
                 turno = "vespertino"
             }
             else if (grupo >3100 && grupo < 3200) {
-                tipoGrado = "tercero_secu";
+                tipoGrado = 2;
                 turno = "matutino"
             }
             else if (grupo >3200 && grupo < 3300) {
-                tipoGrado = "tercero_secu";
+                tipoGrado = 2;
                 turno = "vespertino"
             }
         }
+        console.log(turno);
         //Una función de tipo get para obtener el rango de preguntas de examen
         $.post("activo.php", {turno: turno, grado: tipoGrado},function(rango){
             //Si llega a haber errores se mostrara un mensaje
+            console.log(rango);
             if(rango.error){
                 window.alert(rango.mensaje);
                 window.alert("Por favor recarga la página, si el problema continua avisale a tu profesor")
             }
-            else {
-                //Obtendremos loa folios de las preguntas pero unicamente desde el rango marcado
-                $.get("folios.php", {first: rango.pinicio, last: rango.pfinal}, function(data){
-                    //Si llega a haber errores se mostrara un mensaje
-                    if(data.error){
-                        window.alert(data.mensaje);
-                        window.alert("Por favor recarga la página, si el problema continua avisale a tu profesor")
+            if (rango.length == 0) {
+                window.alert("No hay examen activo");
+
+            }
+            else if (rango.length != 0){
+                console.log(rango);
+                //Obtendremos los folios de las preguntas pero unicamente desde el rango marcado
+                for (var i = 0; i < rango.length; i++) {
+                    for (var k = 1; k <= rango[i].noPreguntas; k++) {
+                        folios.push(parseInt(rango[i].pinicio)+k);
+                        console.log(folios);
                     }
-                    else {
-                        folios = data;
-                        num_folios = data.length;
-                        xp = parseInt(rango.id);
-                        for (var i = 0; i < 10; i++) {
-                            xp += 100;
-                            if(xp < rango.pfinal){
-                                idSeccion.push(xp);
-                                console.log(idSeccion);
-                            }
-                        }
-                        $.get("no_pregruntas_secciones.php",{identificador: idSeccion},function(info){
-                            if (info.error) {
-                                alert(info.mensaje);
-                                alert("Por favor recarga la página, si el problema consiste avisale a tu profesor");
-                            }
-                            else{
-                                console.log(info[0][0]);
-                                for (var i = 0; i < info.length; i++) {
-                                    solicitud[i] = [];
-                                    for (var k = 0; k < 2; k++) {
-                                        solicitud[i][k] = info[i][k];
-                                    }
-                                }
-                                $("#waiting").hide();
-                                $("center").show();
-                            }
-                        }, "json" );
-                    }
-                }, "json");
+                    solicitud[i] = [];
+                    solicitud[i][0] = rango[i].id;
+                    solicitud[i][1] = rango[i].noPreguntas;
+                }
+                num_folios = folios.length;
+                $("#waiting").hide();
+                $("center").show();
             }
         },"json");
     }, "json" );
@@ -284,7 +267,6 @@ $(document).ready(function(){
 $('#action').click(function(){
     var lol = solicitud.length * 2;
     $('#form').attr('action', "examenfinal/index.html?folio="+folio_use+"&folios_preguntas="+folios+"&ele="+lol+"&info="+solicitud+"&num_folios="+num_folios);
-    window.location.href = "examenfinal/index.html?folio="+folio_use+"&info="+solicitud;
 });
 $('#noaction').click(function(){
     $('#form').attr('action', "../index.html");

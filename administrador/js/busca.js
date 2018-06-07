@@ -6,7 +6,7 @@ function getParameterByName(name) {// Función que nos permitirá obtener valore
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " ")); // Devolvemos los resultados obtenidos
 }
 var folio = getParameterByName('folio'); // Obtenemos el folio de la URK
-var ej = "a"; //Establecemos un valor inicial para comenzar la búsqueda
+var ej = ""; //Establecemos un valor inicial para comenzar la búsqueda
 $(buscar_datos(ej, folio)); // Cuando haya cargado la página, se ejecutará la funcion buscar_datos
 function buscar_datos(consulta, folio){ // Función buscar_datos
     $.ajax({ // Se establece una estructura AJAX para la búsqueda en tiempo real

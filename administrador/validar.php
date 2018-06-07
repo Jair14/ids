@@ -8,13 +8,13 @@ include 'conexion.php'; // Incluimos la conexion
     if ($var = $consulta->fetch_assoc()) {
       $user = $var['Usuario']; // Extraemos el usuario
       $pasw = $var['Password']; // Extraemos el Password
-      $data = $var['session_active']; // Extraemos la sesión
+      $data = $var['session']; // Extraemos la sesión
     }
     if ($user == $usuario && $pasw == $pass) {
       if ($data == 0) {
         $_SESSION['user'] = $user; // Creamos la variable de sesión para el usuario
         $_SESSION['pasw'] = $pasw; // Creamos la variable de sesión para el usuario
-        $active = $con->query("UPDATE administracion SET session_active = 1 WHERE Usuario = '$user' AND  Password = '$pasw'"); // Actualizamos la tabla de administración
+        $active = $con->query("UPDATE administracion SET session = 1 WHERE Usuario = '$user' AND  Password = '$pasw'"); // Actualizamos la tabla de administración
         header('location: alerta.php?mensaje=Bienvenido&p=administrador&t=success'); // Mnesaje de éxito
       }else {
         header('location: alerta.php?mensaje=Ya hay una sesion activa con estos datos&p=index&t=error'); // Mensaje de error

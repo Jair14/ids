@@ -27,6 +27,7 @@ $materia = $_POST['materias'];
   $q = $con->query("SELECT * FROM secciones WHERE seccion = '$num'"); // Seleccionamos la sección a la que pertence la pregunta
   $row = $q->fetch_assoc(); // Establecemos un arreglo asociativo para obtener los valores de las filas de la BD
 
+  /*
   $id_materia = $row['last']; // Obtenemos el id de seccion
   $ultima  = (int)$row['ultima']; // Obtenemos el último id añadido
   $ultima += 1; // Se aumenta en uno el id de la pregunta
@@ -39,7 +40,8 @@ $materia = $_POST['materias'];
   $ult[3] = $str_materias[1];
   $id = (int)$ult; // Convertimos a entero el valor del id
 
-
+*/
+  $id = (int)$row['ultima']+1;
   if (!isset($POST['archivo'])) { // En caso de existir una imagen se añadirá la pregunta y la imágen
     $directorio = '../alumno/examenfinal/images';
     $nombreArchivo = $_FILES['archivo']['name'];
