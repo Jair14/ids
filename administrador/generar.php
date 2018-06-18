@@ -3,7 +3,7 @@
 	require 'conexion.php'; // Incluimos la conexion
 
 	$folio = $_POST['grupo']; // Obtenemos el folio
-	$query = "SELECT * FROM alumnos WHERE grupo = $folio"; // Seleccionamos las respuestas del alumno
+	$query = "SELECT * FROM alumnos WHERE grupo = $folio ORDER BY Apellido_P ASC"; // Seleccionamos las respuestas del alumno
 	$resultado = $con->query($query); // Ejecutamos el query
 	$number = mysqli_num_rows($resultado); // Obtenemos el número de filas
 	$pdf = new PDF(); // Instanciamos el pdf
